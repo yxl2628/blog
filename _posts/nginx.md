@@ -1,8 +1,7 @@
 ---
 title: nginx 详解
-layout: tag
-category: server
-tag: ngnix
+categories: server
+tags: ngnix
 ---
 
 ### 初识Nginx

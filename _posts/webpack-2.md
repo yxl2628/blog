@@ -1,8 +1,7 @@
 ---
 title: webpack学习-开发调试篇
-layout: tag
-category: javascript
-tag: webpack
+categories: javascript
+tags: webpack
 ---
 
 通过本篇讲解，可以方便我们更加便捷的调试，同时搭建一个本地服务器来方便我们开发

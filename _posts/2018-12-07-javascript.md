@@ -1,8 +1,7 @@
 ---
 title: js相关的小技巧及简单api
-layout: tag
-category: javascript
-tag: js
+categories: javascript
+tags: js
 ---
 
 ### 判断内外网

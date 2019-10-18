@@ -1,8 +1,7 @@
 ---
 title: webpack学习-入门篇
-layout: tag
-category: javascript
-tag: webpack
+categories: javascript
+tags: webpack
 ---
 
 通过本篇讲解，可以先搭建出来一个可以运行的webpack工程，但是设计到具体的每一项的配置说明，后面再陆续添加详解

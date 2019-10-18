@@ -1,8 +1,7 @@
 ---
 title: webpack学习-server的proxy用法大全
-layout: tag
-category: javascript
-tag: webpack
+categories: javascript
+tags: webpack
 ---
 
 # 前言

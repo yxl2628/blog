@@ -1,8 +1,7 @@
 ---
 title: webpack学习-一切皆模块
-layout: tag
-category: javascript
-tag: webpack
+categories: javascript
+tags: webpack
 ---
 
 Webpack有一个不可不说的优点，它把所有的文件都都当做模块处理，JavaScript代码，CSS和fonts以及图片等等通过合适的loader都可以被处理

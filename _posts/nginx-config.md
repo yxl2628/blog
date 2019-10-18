@@ -1,8 +1,7 @@
 ---
 title: nginx 配置说明
-layout: tag
-category: server
-tag: ngnix
+categories: server
+tags: ngnix
 ---
 
 ```

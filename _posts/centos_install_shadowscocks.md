@@ -1,8 +1,7 @@
 ---
 title: js相关的小技巧及简单api
-layout: tag
-category: server
-tag: linux vpn
+categories: server
+tags: linux vpn
 ---
 
 ```shell
