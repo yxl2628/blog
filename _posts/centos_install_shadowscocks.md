@@ -1,5 +1,5 @@
 ---
-title: js相关的小技巧及简单api
+title: Centos下搭个梯子
 categories: server
 tags: linux vpn
 ---
