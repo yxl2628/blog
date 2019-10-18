@@ -1,0 +1,118 @@
+---
+layout: post
+title: webpack学习-入门篇
+date: 2018-8-24 16:41:32
+tags: webpack
+---
+
+通过本篇讲解，可以先搭建出来一个可以运行的webpack工程，但是设计到具体的每一项的配置说明，后面再陆续添加详解
+
+### 1.初始化一个工程
+通过 `npm init` 来初始化一个工程，初始化成功后，应该可以看到package.json这个文件，也可以拷贝下面的代码，自己新建一个package.json
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "node -v"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1"
+  }
+}
+```
+
+### 2.安装webpack
+通过 `npm install webpack --save-dev` 或者 `yarn add webpack -D` 安装webpack到你的工程下
+
+### 3.初始化工程需要的文件
+- src 用来存放原始数据和我们将要写的javascript模块
+- public 用来存放打包构建后的文件，供浏览器读取使用
+- public/index.html
+- src/Greeter.js
+- src/main.js
+
+我们在public/index.html 中，写入基础代码，如下：
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Webpack Sample Project</title>
+  </head>
+  <body>
+    <div id='root'>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+
+在Greeter.js中，定义一个返回包含问候信息的js文件，代码如下：
+```javascript
+module.exports = function() {
+  var greet = document.createElement('div')
+  greet.textContent = "Hi there and greetings!"
+  return greet
+}
+```
+
+在main.js中，写入如下代码，用来把Greeter模块返回的节点插入页面：
+```javascript
+const greeter = require('./Greeter.js')
+document.querySelector("#root").appendChild(greeter())
+```
+
+### 4.定义一个webpack.config.js配置文件
+我们在工程下新建一个webpack.config.js文件，用来存放配置代码，目前主要的配置是入口文件路径和打包后文件的存放路径
+```javascript
+module.exports = {
+  mode: 'development', // 声明当前环境为生产环境还是开发环境
+  entry:  __dirname + "/src/main.js",//已多次提及的唯一入口文件
+  output: {
+    path: __dirname + "/public",//打包后的文件存放的地方
+    filename: "bundle.js"//打包后输出文件的文件名
+  }
+}
+```
+> 注：__dirname是node.js中的一个全局变量，它指向当前执行脚本所在的目录
+
+然后我们需要在package.json中加入webpack打包命令
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1"
+  }
+}
+```
+
+### 5.见证结果
+在中断中运行 `npm start` 来看下运行结果吧
+> 当前使用webpack版本为4.17.1，首次运行的时候，提示需要安装webpack-cli，只要按照提示安装上即可
+
+通过浏览器打开index.hmtl，查看一下是否打包成功：
+显示： Hi there and greetings!
+
+### 6.关于npm start
+- 正常的webpack启动命令其实是：`node_modules/.bin/webpack app/main.js public/bundle.js` (webpack非全局安装的情况)
+- 我们通过webpack.config.js，免去了后面参数的输入，减少不方便以及容易出错的地方
+- npm可以引导任务执行，对npm进行配置后，可以在命令行中使用简单的npm start命令来代替繁琐的命令，可以在package.json中，对scripts对象进行相关配置，配置如下：
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "webpack" // 修改的是这里，JSON文件不支持注释，引用时请清除
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
+```
+> 指的一提的是，npm start 是scripts脚本里面，特殊的一种表现，如果你的命令不是 start 或 多余一个，那么，正确的命令格式应该是：npm run start，后面我们会用到，启动开发模式：npm run dev 打包构建 npm run build

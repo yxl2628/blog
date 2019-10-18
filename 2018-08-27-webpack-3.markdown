@@ -1,0 +1,116 @@
+---
+layout: post
+title: webpack学习-鼎鼎大名的loaders
+date: 2018-8-27 14:20:11
+tags: webpack
+---
+Loaders 是 webpack 提供的最激动人心的功能之一了，通过使用不同的loader，webpack有能力调用外部的脚本或工具，实现对不同格式的文件的处理，比如：转换scss为css、把下一代js文件（ES6、ES7）转换为现代浏览器兼容的js文件，对react的开发而言，合适的loaders可以把React中的JSX文件转换为js文件
+
+### 1.配置
+Loaders 需要单独安装，并且需要在webpack.config.js中的modules下进行配置，一个loaders的配置包括以下几个方面：
+- test： 一个用来匹配loaders所处理文件的拓展名的正则表达式（必须）
+- loader： loader的名称（必须）
+- include/exclude：手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）
+- query： 为loaders提供额外的设置选项（可选）
+
+### 2.Babel的安装与配置
+Babel其实是几个模块化的包，其核心功能位于成为babel-core的npm包中，webpack可以把其它不同的包整合在一起使用，对于每一个我们需要的功能或者拓展，都需要额外安装单独的包
+> 用得最多的是解析Es6的babel-env-preset包和解析JSX的babel-preset-react包
+
+我们本次安装babel-core、babel-loader、babel-preset-env（ES6语法转换）、babel-preset-react（react语法支持）:
+`yarn add -D babel-core babel-loader babel-preset-env babel-preset-react`
+> 一次性安装多个包，模块之间使用空格隔开
+
+### 3.配置webpack.config.js
+将ES6语法支持，配置到webpack.config.js：
+```javascript
+module.exports = {
+  devtool: 'eval-source-map', // 构建source maps，生产环境需要去掉此选项
+  mode: 'development', // 声明当前环境为生产环境还是开发环境
+  entry: __dirname + '/src/main.js', // 已多次提及的唯一入口文件
+  output: {
+    path: __dirname + '/public', // 打包后的文件存放的地方
+    filename: 'bundle.js' // 打包后输出文件的文件名
+  },
+  devServer: {
+    contentBase: './public', // 本地服务器所加载的页面所在的目录
+    port: 8080, // 默认端口
+    historyApiFallback: true, // 不跳转
+    inline: true // 实时刷新
+  },
+  module: {
+    rules: [{
+      test: /(\.jsx|\.js)$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            'env', 'react'
+          ]
+        }
+      },
+      exclude: /node_modules/
+    }]
+  }
+}
+```
+Babel其实完全可以如上面代码所示，完全在webpack.config.js中配置，但是考虑到babel具有非常多的配置项，在单一的webpack.config.js中进行配置，会使得这个文件异常的复杂，因此开发者把支持babel的配置项单独放在了一个名为*.babelrc*的文件中，虽然我们现在的配置并不复杂，但是最后会增加更多的配置进来，所以现在我们就提取相关部分，进行两个文件的配置：
+```javascript
+module.exports = {
+  devtool: 'eval-source-map', // 构建source maps，生产环境需要去掉此选项
+  mode: 'development', // 声明当前环境为生产环境还是开发环境
+  entry: __dirname + '/src/main.js', // 已多次提及的唯一入口文件
+  output: {
+    path: __dirname + '/public', // 打包后的文件存放的地方
+    filename: 'bundle.js' // 打包后输出文件的文件名
+  },
+  devServer: {
+    contentBase: './public', // 本地服务器所加载的页面所在的目录
+    port: 8080, // 默认端口
+    historyApiFallback: true, // 不跳转
+    inline: true // 实时刷新
+  },
+  module: {
+    rules: [{
+      test: /(\.jsx|\.js)$/,
+      use: {
+        loader: 'babel-loader'
+      },
+      exclude: /node_modules/
+    }]
+  }
+}
+```
+```json
+{
+  "presets": ["react", "env"]
+}
+```
+### 4.安装React
+运行`yarn add -S react react-dom`
+
+### 5.使用ES6语法来修改Greeter.js和main.js，使其变成一个组件
+修改Greeter.js，使其返回一个React组件：
+```javascript
+import React, {Component} from 'react'
+
+class Greeter extends Component{
+  render() {
+    return (
+      <div>
+        Hi there and greetings from JSON!
+      </div>
+    )
+  }
+}
+export default Greeter
+```
+修改main.js，使用ES6的模块定义来渲染Greeter模块
+```javascript
+import React from 'react'
+import {render} from 'react-dom'
+import Greeter from './Greeter'
+
+render(<Greeter />, document.getElementById('root'))
+```
+### 6.运行npm start 或者 npm run dev来查看新的应用吧

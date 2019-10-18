@@ -1,0 +1,85 @@
+---
+layout: post
+title: webpack学习-开发调试篇
+date: 2018-8-27 08:51:24
+tags: webpack
+---
+
+通过本篇讲解，可以方便我们更加便捷的调试，同时搭建一个本地服务器来方便我们开发
+
+### 1.生成Source Maps (使调试更加容易)
+开发总是离不开调试，方便的调试能够极大的提升开发效率，不过webpack打包之后的文件，非常不容易找到出错的地方，为了解决这个问题，能够使调试工具对应到你写的代码的位置，由此我们用到了Source Maps
+在webpack中，我们通过配置devtool，来配置source maps，它的配置如下：
+
+| devtool选项 | 配置结果 |
+| :------ | :------ |
+| source-map | 在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包速度 |
+| cheap-module-source-map | 在一个单独的文件中生成一个不带列映射的map，不带列映射提高了打包速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便 |
+| eval-source-map | 使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。在开发阶段这是一个非常好的选项，在生产阶段则一定不要启用这个选项 |
+| cheap-module-eval-source-map | 这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点 |
+
+如上表所述：打包速度由上到下，是越来越快的，但是具有的副作用也越来越多，我们应该如何使用它？可以在webpack.config.js中做如下配置：
+```javascript
+module.exports = {
+  devtool: 'eval-source-map',  // 构建source maps，生产环境需要去掉此选项
+  mode: 'development', // 声明当前环境为生产环境还是开发环境
+  entry:  __dirname + "/src/main.js",//已多次提及的唯一入口文件
+  output: {
+    path: __dirname + "/public",//打包后的文件存放的地方
+    filename: "bundle.js"//打包后输出文件的文件名
+  }
+}
+```
+> 对小到中型的项目中，eval-source-map是一个很好的选项
+
+> cheap-module-eval-source-map方法构建速度更快，但是不利于调试，推荐在大型项目考虑时间成本时使用
+
+### 2.搭建本地服务器
+每次修改代码，然后刷新浏览器，是不是太繁琐了？没关系，webpack提供了一个可选的本地开发服务器，这个服务器基于node.js构建，可以实现我们要的这些功能
+1. 安装webpack-dev-server
+webpack本地服务器是一个单独的组件，我们在使用之前，需要安装一下，运行如下命令：
+`yarn add webpack-dev-server -D`
+2. devserver配置，常用的配置如下：
+
+| devserver配置项 | 功能描述 |
+| :------ | :------ |
+| contentBase | 默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录） |
+| port | 设置默认监听端口，如果省略，默认为”8080“ |
+| inline | 设置为true，当源文件改变时会自动刷新页面 |
+| historyApiFallback | 在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html |
+
+3. 加入webpack.config.js配置：
+```javascript
+module.exports = {
+  devtool: 'eval-source-map',  // 构建source maps，生产环境需要去掉此选项
+  mode: 'development', // 声明当前环境为生产环境还是开发环境
+  entry:  __dirname + "/src/main.js", // 已多次提及的唯一入口文件
+  output: {
+    path: __dirname + "/public", // 打包后的文件存放的地方
+    filename: "bundle.js" // 打包后输出文件的文件名
+  },
+  devServer: {
+    contentBase: "./public", // 本地服务器所加载的页面所在的目录
+    port: 8080, // 默认端口
+    historyApiFallback: true, // 不跳转
+    inline: true // 实时刷新
+  }
+}
+```
+4. 加入npm scripts脚本：
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "webpack",
+    "dev": "webpack-dev-server --open"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.6"
+  }
+}
+```
+5. 运行`npm run dev`查看效果
