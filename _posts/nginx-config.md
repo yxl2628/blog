@@ -1,8 +1,8 @@
 ---
-layout: post
-title: nginx config配置
-date: 2018-11-2 11:35:56
-tags: ngnix
+title: nginx 配置说明
+layout: tag
+category: server
+tag: ngnix
 ---
 
 ```

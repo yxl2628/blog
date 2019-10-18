@@ -1,8 +1,8 @@
 ---
-layout: post
-title: webpack-dev-server的proxy用法大全
-date: 2019-8-5 10:26:00
-tags: webpack 前端
+title: webpack学习-server的proxy用法大全
+layout: tag
+category: javascript
+tag: webpack
 ---
 
 # 前言

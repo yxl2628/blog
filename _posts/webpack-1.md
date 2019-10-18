@@ -1,8 +1,8 @@
 ---
-layout: post
 title: webpack学习-入门篇
-date: 2018-8-24 16:41:32
-tags: webpack
+layout: tag
+category: javascript
+tag: webpack
 ---
 
 通过本篇讲解，可以先搭建出来一个可以运行的webpack工程，但是设计到具体的每一项的配置说明，后面再陆续添加详解

@@ -1,9 +1,10 @@
 ---
-layout: post
 title: webpack学习-鼎鼎大名的loaders
-date: 2018-8-27 14:20:11
-tags: webpack
+layout: tag
+category: javascript
+tag: webpack
 ---
+
 Loaders 是 webpack 提供的最激动人心的功能之一了，通过使用不同的loader，webpack有能力调用外部的脚本或工具，实现对不同格式的文件的处理，比如：转换scss为css、把下一代js文件（ES6、ES7）转换为现代浏览器兼容的js文件，对react的开发而言，合适的loaders可以把React中的JSX文件转换为js文件
 
 ### 1.配置

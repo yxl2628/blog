@@ -1,9 +1,10 @@
 ---
-layout: post
-title: centos下安装shadowsockes
-date: 2019-5-21 12:36:29
-tags: linux vpn
+title: js相关的小技巧及简单api
+layout: tag
+category: server
+tag: linux vpn
 ---
+
 ```shell
 # yum -y install wget
 # wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh

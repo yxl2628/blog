@@ -1,9 +1,10 @@
 ---
-layout: post
 title: nginx 详解
-date: 2018-11-9 14:00:53
-tags: ngnix
+layout: tag
+category: server
+tag: ngnix
 ---
+
 ### 初识Nginx
 作为一个前端，如果说不会nginx的话，大概都不敢和别人说自己是搞前端的（前端应用的部署、通过反向代理解决跨域问题等等），下面是nginx的官方介绍
 > "Nginx是一款轻量级的HTTP服务器，采用事件驱动的异步非阻塞处理方式框架，这让其具有极好的IO性能，时常用于服务端的反向代理和负载均衡。"

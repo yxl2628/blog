@@ -1,8 +1,8 @@
 ---
-layout: post
 title: js相关的小技巧及简单api
-date: 2018-12-7 13:47:39
-tags: javascript
+layout: tag
+category: javascript
+tag: js
 ---
 
 ### 判断内外网
