@@ -34,7 +34,7 @@ tags: server nodejs git
 4. 自己用nodejs写一个简单的服务器，用来监听git webhooks（为了防止端口暴露，将此服务通过nginx proxy代理）
 5. 使用nodejs的shelljs来调用linux的shell命令
 
-总结：编写博客-->提交到github-->github通知服务器-->服务器接收到通知-->调用git pull，将最新博客拉取到source-->拉取成功后，调用hexo generate生成静态页面到public-->ningx监听public，用户访问到最新资源
+总结：编写博客 --> 提交到github --> github通知服务器 --> 服务器接收到通知 --> 调用git pull，将最新博客拉取到source --> 拉取成功后，调用hexo generate生成静态页面到public --> ningx监听public，用户访问到最新资源
 
 ### 相关源码
 > 待补充
