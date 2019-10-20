@@ -37,4 +37,132 @@ tags: server nodejs git
 总结：编写博客 --> 提交到github --> github通知服务器 --> 服务器接收到通知 --> 调用git pull，将最新博客拉取到source --> 拉取成功后，调用hexo generate生成静态页面到public --> ningx监听public，用户访问到最新资源
 
 ### 相关源码
-> 待补充
+
+##### 分析
+nodejs写后台服务的话，首推成熟的框架koa，因此需要引入koa（node server）、koa-bodyparser（request body解析器，可以解析xml、json等格式）、koa-router（路由）
+为了方便记录日志，引入log4js
+为了输出美观，引入chalk
+加密解码，使用crypto
+划重点！！！nodejs操作linux shell的能力，全靠shelljs来提供，这个类库能够极大的节省我们的时间，让nodejs执行shell脚本编程一行代码就搞定的事儿
+```
+{
+  "name": "generate-server",
+  "version": "1.0.0",
+  "description": "自动调用shell的服务器",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "server": "nohup src/server.js &"
+  },
+  "author": "yang.xiaolong",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "koa": "^2.10.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "log4js": "^5.2.2",
+    "shelljs": "^0.8.3"
+  }
+}
+```
+
+1. 先封装一个util类库，计划是，让日志即输出到硬盘，又输出到命令行
+```
+// util.js
+const log4js = require('log4js')
+const chalk = require('chalk')
+const crypto = require('crypto')
+
+log4js.configure({
+  appenders: { access: { type: 'file', filename: './logs/access.log' } },
+  categories: { default: { appenders: ['access'], level: 'error' } }
+})
+// 将日志输出
+const logger = log4js.getLogger('access')
+
+// 封装日志
+const log = (msg, color = 'limegreen') => {
+  logger.info(msg)
+  // eslint-disable-next-line no-console
+  console.log(chalk.keyword(color)(msg))
+}
+// 错误日志
+const error = (msg, e, color = 'orangered ') => {
+  logger.error(msg)
+  // eslint-disable-next-line no-console
+  console.log(chalk.keyword(color)(msg), e)
+}
+
+const getKey = (secret, body) => {
+  return 'sha1=' + crypto.createHmac('sha1', secret).update(JSON.stringify(body)).digest('hex');
+}
+
+module.exports = {
+  log, error
+}
+```
+
+2. 在封装一个配置库，将可变的配置都提取出来
+module.exports = {
+  targetDir: '/home/hexo/source/',
+  port: 8888,
+  secret: 'yang.xiaolong-auto-public-hexo',
+}
+
+3. 核心程序（因功能简单，所以就没有拆分模块化）
+```
+const Koa = require('koa')
+const router = require('koa-router')()
+const bodyParser = require('koa-bodyparser')
+const shelljs = require('shelljs')
+const { log, error, getKey } = require('./util')
+const { targetDir, port, secret } = require('./config')
+
+// 获取koa实例
+const app = new Koa()
+
+app.use(async (ctx, next) => {
+  log(`Process ${ctx.request.method} ${ctx.request.url}...`)
+  await next()
+})
+
+router.get('/git-hooks', async (ctx) => {
+  const { request, response } = ctx
+  const sig = request.headers['x-hub-signature']
+  const key = getKey(secret, response.body)
+  // 校验通过
+  if (sig === key) {
+    shelljs.cd(targetDir)
+    log(`切换到目录：${targetDir}`)
+    const generateCmd = shelljs.exec('yarn generate')
+    if (generateCmd.code === 0) {
+      log('网站构建成功')
+      ctx.response.body = {
+        code: 200,
+        message: '网站构建成功'
+      };
+    } else {
+      error('网站构建失败', generateCmd.output)
+      ctx.response.body = {
+        code: 500,
+        message: '网站构建失败'
+      }
+    }
+  } else {
+    error('网站构建失败')
+    ctx.response.body = {
+      code: 401,
+      message: '权限校验失败'
+    }
+  }
+})
+
+// 添加body解析
+app.use(bodyParser())
+// 添加路由配置
+app.use(router.routes())
+// 启动监听端口
+app.listen(port)
+log(`应用程序已经启动，访问地址:http://127.0.0.1:${port}`)
+```
