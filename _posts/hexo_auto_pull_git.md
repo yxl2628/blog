@@ -55,9 +55,11 @@ nodejs写后台服务的话，首推成熟的框架koa，因此需要引入koa�
     "server": "nohup src/server.js &"
   },
   "author": "yang.xiaolong",
+  "github": "https://github.com/yxl2628/auto-public-hexo",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
+    "crypto": "^1.0.1",
     "koa": "^2.10.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
@@ -67,7 +69,16 @@ nodejs写后台服务的话，首推成熟的框架koa，因此需要引入koa�
 }
 ```
 
-1. 先封装一个util类库，计划是，让日志即输出到硬盘，又输出到命令行
+1. 封装一个配置库，将可变的配置都提取出来
+```
+module.exports = {
+  targetDir: 'hexo所在的source目录',
+  port: 8888,
+  secret: '填写github上webhooks里填写的secret',
+}
+```
+
+2. 封装一个util类库
 ```
 // util.js
 const log4js = require('log4js')
@@ -99,16 +110,9 @@ const getKey = (secret, body) => {
 }
 
 module.exports = {
-  log, error
+  log, error, getKey
 }
 ```
-
-2. 在封装一个配置库，将可变的配置都提取出来
-module.exports = {
-  targetDir: '/home/hexo/source/',
-  port: 8888,
-  secret: 'yang.xiaolong-auto-public-hexo',
-}
 
 3. 核心程序（因功能简单，所以就没有拆分模块化）
 ```
@@ -127,7 +131,7 @@ app.use(async (ctx, next) => {
   await next()
 })
 
-router.get('/git-hooks', async (ctx) => {
+router.post('/git-hooks', async (ctx) => {
   const { request, response } = ctx
   const sig = request.headers['x-hub-signature']
   const key = getKey(secret, response.body)
