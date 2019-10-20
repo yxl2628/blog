@@ -44,33 +44,11 @@ nodejs写后台服务的话，首推成熟的框架koa，因此需要引入koa�
 为了输出美观，引入chalk
 加密解码，使用crypto
 划重点！！！nodejs操作linux shell的能力，全靠shelljs来提供，这个类库能够极大的节省我们的时间，让nodejs执行shell脚本编程一行代码就搞定的事儿
-```
-{
-  "name": "generate-server",
-  "version": "1.0.0",
-  "description": "自动调用shell的服务器",
-  "main": "index.js",
-  "scripts": {
-    "start": "node src/server.js",
-    "server": "nohup src/server.js &"
-  },
-  "author": "yang.xiaolong",
-  "github": "https://github.com/yxl2628/auto-public-hexo",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "crypto": "^1.0.1",
-    "koa": "^2.10.0",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "log4js": "^5.2.2",
-    "shelljs": "^0.8.3"
-  }
-}
-```
 
 1. 封装一个配置库，将可变的配置都提取出来
+
 ```
+// config.js
 module.exports = {
   targetDir: 'hexo所在的source目录',
   port: 8888,
@@ -79,6 +57,7 @@ module.exports = {
 ```
 
 2. 封装一个util类库
+
 ```
 // util.js
 const log4js = require('log4js')
@@ -106,7 +85,12 @@ const error = (msg, e, color = 'orangered ') => {
 }
 
 const getKey = (secret, body) => {
-  return 'sha1=' + crypto.createHmac('sha1', secret).update(JSON.stringify(body)).digest('hex');
+ try {
+   return 'sha1=' + crypto.createHmac('sha1', secret).update(JSON.stringify(body)).digest('hex');
+ } catch(e) {
+   error('校验secret失败', e)
+ } 
+ return null;
 }
 
 module.exports = {
@@ -115,7 +99,9 @@ module.exports = {
 ```
 
 3. 核心程序（因功能简单，所以就没有拆分模块化）
+
 ```
+// server.js
 const Koa = require('koa')
 const router = require('koa-router')()
 const bodyParser = require('koa-bodyparser')
@@ -134,29 +120,29 @@ app.use(async (ctx, next) => {
 router.post('/git-hooks', async (ctx) => {
   const { request, response } = ctx
   const sig = request.headers['x-hub-signature']
-  const key = getKey(secret, response.body)
+  const key = getKey(secret, request.body)
   // 校验通过
   if (sig === key) {
     shelljs.cd(targetDir)
     log(`切换到目录：${targetDir}`)
-    const generateCmd = shelljs.exec('yarn generate')
+    const generateCmd = shelljs.exec('hexo clean && hexo generate')
     if (generateCmd.code === 0) {
       log('网站构建成功')
       ctx.response.body = {
-        code: 200,
+        code: 'success',
         message: '网站构建成功'
       };
     } else {
       error('网站构建失败', generateCmd.output)
       ctx.response.body = {
-        code: 500,
+        code: 'error',
         message: '网站构建失败'
       }
     }
   } else {
     error('网站构建失败')
     ctx.response.body = {
-      code: 401,
+      code: 'error',
       message: '权限校验失败'
     }
   }
