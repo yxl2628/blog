@@ -1,5 +1,6 @@
 ---
 title: nginx 配置说明
+date: 2018-11-02 13:28:19
 categories: server
 tags: ngnix
 ---

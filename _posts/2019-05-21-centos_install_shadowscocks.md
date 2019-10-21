@@ -1,5 +1,6 @@
 ---
 title: Centos下搭个梯子
+date: 2019-05-21 21:12:18
 categories: server
 tags: linux vpn
 ---

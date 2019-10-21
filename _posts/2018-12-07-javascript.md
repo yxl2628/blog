@@ -1,5 +1,6 @@
 ---
 title: js相关的小技巧及简单api
+date: 2018-12-07 13:32:12
 categories: javascript
 tags: js
 ---
