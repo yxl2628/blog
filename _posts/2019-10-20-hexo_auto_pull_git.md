@@ -1,5 +1,6 @@
 ---
 title: github提交hexo自动更新的博客设计
+date: 2019-10-20 21:47:31
 categories: server
 tags: server nodejs git
 ---
