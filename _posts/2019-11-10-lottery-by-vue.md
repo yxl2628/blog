@@ -1,7 +1,7 @@
 ---
 title: vue版的抽奖大转盘
 date: 2019-11-10 20:12:22
-categories: server
+categories: vuejs
 tags: vuejs
 ---
 
