@@ -169,4 +169,4 @@ setTimeout(() => {
 
 计算图片最大宽度用了正余弦定理，通过两边长度和角度，计算第三边长度
 
-[](/images/other/cosA.png)
+![](/images/other/cosA.png)
