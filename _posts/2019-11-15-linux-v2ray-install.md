@@ -72,7 +72,7 @@ v2ray配置： `sudo vi /etc/v2ray/config.json` 和 `sudo systemctl restart v2ra
     "streamSettings": {     # 载体配置段，设置为websocket
         "network": "ws",
         "wsSettings": {
-          "path": "/aws-v2ray"  # 与nginx中的路径保持一致
+          "path": "/ray"  # 与nginx中的路径保持一致
         }
       },
     "listen": "127.0.0.1" # 出于安全考虑，建议只接受本地链接
@@ -101,7 +101,7 @@ v2ray配置： `sudo vi /etc/v2ray/config.json` 和 `sudo systemctl restart v2ra
 nginx配置：
 
 ```
-location /aws-v2ray { # 与 V2Ray 配置中的 path 保持一致
+location /ray { # 与 V2Ray 配置中的 path 保持一致
   proxy_redirect off;
   proxy_pass http://127.0.0.1:12345; # 假设v2ray的监听地址是12345
   proxy_http_version 1.1;
