@@ -11,13 +11,9 @@ google cloud到期了，又撸了一个aws的免费服务器，不过用shadowso
 
 ### 安装
 
-1. 下载安装脚本
+1. 下载安装脚本：`curl -O https://install.direct/go.sh`
 
-`curl -O https://install.direct/go.sh`
-
-2. 安装v2ray
-
-`sudo bash go.sh`
+2. 安装v2ray：`sudo bash go.sh`
 
 3. 相关命令
 
@@ -35,9 +31,7 @@ systemctl restart v2ray
 systemctl enable v2ray
 ```
 
-4. 配置文件
-
-配置文件默认存放路径为：`/etc/v2ray/config.json`
+4. 配置文件，默认存放路径为：`/etc/v2ray/config.json`
 
 ### 高级技巧：流量伪装
 
@@ -126,4 +120,4 @@ location /aws-v2ray { # 与 V2Ray 配置中的 path 保持一致
 
 客户端下载：[官方下载](https://github.com/v2ray/v2ray-core/releases)
 
-被墙的话，可以从这里下载：[国内镜像tlanyan](https://www.tlanyan.me/v2ray-clients-download/)
+被墙的话，可以从这里下载：[国内镜像（tlanyan）](https://www.tlanyan.me/v2ray-clients-download/)
