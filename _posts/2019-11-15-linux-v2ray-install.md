@@ -152,7 +152,7 @@ location /v2ray { # 与 V2Ray 配置中的 path 保持一致
                     "path": "v2ray" #这里就是nginx配置的转发的path
                 },
                 "tlsSettings": {
-                    "serverName": "dl.yangxl.cn"
+                    "serverName": "这里填写你的网站域名"
                 },
                 "security": "tls",
                 "network": "ws"
