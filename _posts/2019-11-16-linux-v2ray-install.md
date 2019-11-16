@@ -1,6 +1,6 @@
 ---
 title: ubuntu上搭建v2ray
-date: 2019-11-16 22:52:13
+date: 2019-11-16 08:52:13
 categories: server
 tags: linux vpn
 ---
