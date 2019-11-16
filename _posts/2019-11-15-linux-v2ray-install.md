@@ -72,7 +72,7 @@ v2ray配置： `sudo vi /etc/v2ray/config.json` 和 `sudo systemctl restart v2ra
     "streamSettings": {     # 载体配置段，设置为websocket
         "network": "ws",
         "wsSettings": {
-          "path": "/aws-v2ray"  # 与nginx中的路径保持一致
+          "path": "/v2ray"  # 与nginx中的路径保持一致
         }
       },
     "listen": "127.0.0.1" # 出于安全考虑，建议只接受本地链接
@@ -100,8 +100,8 @@ v2ray配置： `sudo vi /etc/v2ray/config.json` 和 `sudo systemctl restart v2ra
 
 nginx配置：
 
-```
-location /aws-v2ray { # 与 V2Ray 配置中的 path 保持一致
+```conf
+location /v2ray { # 与 V2Ray 配置中的 path 保持一致
   proxy_redirect off;
   proxy_pass http://127.0.0.1:12345; # 假设v2ray的监听地址是12345
   proxy_http_version 1.1;
@@ -120,4 +120,44 @@ location /aws-v2ray { # 与 V2Ray 配置中的 path 保持一致
 
 客户端下载：[官方下载](https://github.com/v2ray/v2ray-core/releases)
 
-被墙的话，可以从这里下载：[国内镜像（tlanyan）](https://www.tlanyan.me/v2ray-clients-download/)
+国内镜像下载：[国内镜像（tlanyan）](https://www.tlanyan.me/v2ray-clients-download/)
+
+客户端配置像这样：
+
+> 只保留了关键配置的说明，建议根据这个进行修改，而不是直接拷贝
+
+```json
+{
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "你的服务器ip或域名",
+                        "users": [
+                            {
+                                "id": "和服务器上的uuid保持一致",
+                                "alterId": 64, #和服务器上的id保持一致
+                                "security": "auto",
+                                "level": 1
+                            }
+                        ],
+                        "port": 443 #注意，这里填的是443，不是v2ray配置的端口号12345，因为我们要做流量伪装，这里填的是实际网站的https端口
+                    }
+                ]
+            },
+            "streamSettings": {
+                "wsSettings": {
+                    "path": "v2ray" #这里就是nginx配置的转发的path
+                },
+                "tlsSettings": {
+                    "serverName": "dl.yangxl.cn"
+                },
+                "security": "tls",
+                "network": "ws"
+            }
+        }
+    ]
+}
+```
