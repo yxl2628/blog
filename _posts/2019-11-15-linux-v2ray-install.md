@@ -9,6 +9,8 @@ tags: linux vpn
 
 google cloud到期了，又撸了一个aws的免费服务器，不过用shadowsocks搭建的梯子，最近越来越不稳定了，改用v2ray搭建一个，不然很多技术问题，百度又查不到，google不不让查，很是苦恼。
 
+说明（敲黑板）：身为前端，所有的类库都在国外，无数次npm install失败的时候的那种懊恼，是我想要搭个梯子的主要原因，本教程也只为了技术知识等正规用途，请勿使用此技术作违法的事哦
+
 ### 安装
 
 1. 下载安装脚本：`curl -O https://install.direct/go.sh`
