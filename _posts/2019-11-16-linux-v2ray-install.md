@@ -1,6 +1,6 @@
 ---
 title: ubuntu上搭建v2ray
-date: 2019-11-16 22:52:13
+date: 2019-11-16 08:52:13
 categories: server
 tags: linux vpn
 ---
@@ -8,6 +8,8 @@ tags: linux vpn
 ### 前言
 
 google cloud到期了，又撸了一个aws的免费服务器，不过用shadowsocks搭建的梯子，最近越来越不稳定了，改用v2ray搭建一个，不然很多技术问题，百度又查不到，google不不让查，很是苦恼。
+
+说明（敲黑板）：身为前端，所有的类库都在国外，无数次npm install失败的时候的那种懊恼，是我想要搭个梯子的主要原因，本教程也只为了技术知识等正规用途，请勿使用此技术作违法的事哦
 
 ### 安装
 
@@ -120,4 +122,44 @@ location /ray { # 与 V2Ray 配置中的 path 保持一致
 
 客户端下载：[官方下载](https://github.com/v2ray/v2ray-core/releases)
 
-被墙的话，可以从这里下载：[国内镜像（tlanyan）](https://www.tlanyan.me/v2ray-clients-download/)
+国内镜像下载：[国内镜像（tlanyan）](https://www.tlanyan.me/v2ray-clients-download/)
+
+客户端配置像这样：
+
+> 只保留了关键配置的说明，建议根据这个进行修改，而不是直接拷贝
+
+```json
+{
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "你的服务器ip或域名",
+                        "users": [
+                            {
+                                "id": "和服务器上的uuid保持一致",
+                                "alterId": 64, #和服务器上的id保持一致
+                                "security": "auto",
+                                "level": 1
+                            }
+                        ],
+                        "port": 443 #注意，这里填的是443，不是v2ray配置的端口号12345，因为我们要做流量伪装，这里填的是实际网站的https端口
+                    }
+                ]
+            },
+            "streamSettings": {
+                "wsSettings": {
+                    "path": "v2ray" #这里就是nginx配置的转发的path
+                },
+                "tlsSettings": {
+                    "serverName": "这里填写你的网站域名"
+                },
+                "security": "tls",
+                "network": "ws"
+            }
+        }
+    ]
+}
+```
