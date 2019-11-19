@@ -116,7 +116,7 @@ location /ray { # 与 V2Ray 配置中的 path 保持一致
 }
 ```
 
-这样，正常访问域名，既是一个正常的网站，但是一旦访问http://hostname/aws-v2ray，即可伪装上网了
+这样，正常访问域名，既是一个正常的网站，但是一旦访问http://hostname/ray，即可伪装上网了
 
 ### 客户端
 
