@@ -1,11 +1,17 @@
+---
+title: cms系统架构设计
+date: 2018-12-07 13:32:12
+categories: javascript
+tags: 架构
+---
 
 ### 一、统计维度分析
 
 - 页面渲染过程：  
-    ![](/private/cms/5a73ed26e4b0812a0f031921.png)
+    ![](/images/cms/5a73ed26e4b0812a0f031921.png)
 
 - 按钮点击渲染过程：  
-    ![](/private/cms/5a73ed1fe4b024b99bec2781.png)
+    ![](/images/cms/5a73ed1fe4b024b99bec2781.png)
 
 由上面的渲染过程可以将统计时间维度分为：
 
@@ -23,11 +29,11 @@
 
 - 统计分析_页面访问统计_页面
 
-![](/private/cms/image2019-7-29-14_49_49.png)
+![](/images/cms/image2019-7-29-14_49_49.png)
 
 - 统计分析_页面访问统计_按钮 (下图展示事件数> 1000 的结果)
 
-![](/private/cms/20191120173616.png)
+![](/images/cms/20191120173616.png)
 
   
 - 首次渲染：首次访问该页面，页面内资源需要从服务器远端下载到本地浏览器，资源下载完成，同时初始化渲染 dom 所消耗的时间
@@ -38,7 +44,7 @@
 
 ### 三、当前系统架构
 
-![](/private/cms/5d410c41e4b0511f13191f6e.png)
+![](/images/cms/5d410c41e4b0511f13191f6e.png)
 
 ##### 首次渲染
 
@@ -83,13 +89,13 @@
 
     > 每次操作dom元素，浏览器都会从构建DOM树开始从头到尾执行一遍流程。比如当你在一次操作时，需要更新10个DOM节点，理想状态是一次性构建完DOM树，再执行后续操作。但浏览器没这么智能，收到第一个更新DOM请求后，并不知道后续还有9次更新操作，因此会马上执行流程，最终执行10次流程。显然例如计算DOM节点的坐标值等都是白白浪费性能，可能这次计算完，紧接着的下一个DOM更新请求，这个节点的坐标值就变了，前面的一次计算是无用功。即使计算机硬件一直在更新迭代，操作DOM的代价仍旧是昂贵的，频繁操作还是会出现页面卡顿，影响用户的体验。
 
-  ![](/private/cms/1.jpg)
+  ![](/images/cms/1.jpg)
 
 - 优化方向
 
   - 采用新的MVVM架构方案，通过虚拟DOM，减少对真正DOM的操作频次；
   
-  ![](/private/cms/2.jpg)
+  ![](/images/cms/2.jpg)
 
 ### 四、改进目标
 
@@ -102,12 +108,12 @@
 
 ### 五、架构改进方案
 
-![](/private/cms/5d410c5be4b065dc42b89a92.png)
+![](/images/cms/5d410c5be4b065dc42b89a92.png)
 
 ### 六、分步实施方案
 
 新的架构升级方案，能够和旧架构并行存在，支持单个页面升级；
 
-![](/private/cms/5d410d3ee4b0b3e4dcd92a16.png)
+![](/images/cms/5d410d3ee4b0b3e4dcd92a16.png)
 
 [https://www.processon.com/diagraming/5d410d3de4b0b3e4dcd92a13](https://www.processon.com/diagraming/5d410d3de4b0b3e4dcd92a13)
