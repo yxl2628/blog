@@ -75,7 +75,6 @@ process.stdin.on('end', function () {
   });
 });
 
-
 /**
  *  主要函数写在这里即可
  * 
@@ -109,3 +108,7 @@ function testFn(arr) {
   return sum.toFixed(2);
 }
 ```
+
+测试结果：
+
+![](/images/other/2019-11-25-pta-nodejs-1.png)
