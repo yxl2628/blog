@@ -56,7 +56,7 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 ```
 FROM ubuntu:18.04
 RUN apt update;apt install git curl nginx nodejs npm -y;
-RUN npm install npm -g;npm install –g n stable;
+RUN npm install npm -g;npm install –g n;n stable;
 ```
 
 做了各种优化的基础环境：
