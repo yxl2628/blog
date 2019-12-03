@@ -2,7 +2,7 @@
 title: 使用koa实现上传文件功能
 date: 2019-12-01 21:41:15
 categories: server
-tags: nodejs,koa
+tags: koa
 ---
 
 ### 前言
