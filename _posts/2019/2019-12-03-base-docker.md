@@ -66,6 +66,9 @@ docker build -t ubuntu .
 ### 启动镜像
 
 ```bash
+# for all port
+docker run -idt --name ubuntu --net=host -v /home/ubuntu:/home/ubuntu --restart=always ubuntu
+# for single port
 docker run -idt --name ubuntu -p 80:80 -v /home/ubuntu:/home/ubuntu --restart=always ubuntu
 ```
 
