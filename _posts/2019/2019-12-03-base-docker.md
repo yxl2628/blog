@@ -67,9 +67,9 @@ docker build -t ubuntu .
 
 ```bash
 # for all port
-docker run -idt --name ubuntu --net=host -v /home/ubuntu:/home/ubuntu --restart=always ubuntu
+docker run -idt --name ubuntu --net=host --restart=always ubuntu
 # for single port
-docker run -idt --name ubuntu -p 80:80 -v /home/ubuntu:/home/ubuntu --restart=always ubuntu
+docker run -idt --name ubuntu -p 80:80 --restart=always ubuntu
 ```
 
 ### 国内加速站点
