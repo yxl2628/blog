@@ -51,9 +51,19 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 
 ### DockerFile
 
-```bash
+纯前端使用的环境：
+
+```
 FROM ubuntu:18.04
-RUN apt update;apt install git curl nano iputils-ping net-tools netcat nginx nodejs zsh -y;chsh -s /bin/zsh
+RUN apt update;apt install git curl nginx nodejs npm -y;
+RUN npm install npm -g;npm install –g n stable;
+```
+
+做了各种优化的基础环境：
+
+```
+FROM ubuntu:18.04
+RUN apt update;apt install git curl nano iputils-ping net-tools netcat zsh -y;chsh -s /bin/zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";cd ~;git clone https://github.com/zsh-users/zsh-syntax-highlighting.git;echo "source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ```
 
