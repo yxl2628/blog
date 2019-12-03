@@ -68,3 +68,13 @@ docker build -t ubuntu .
 ```bash
 docker run -idt --name ubuntu -p 80:80 -v /home/ubuntu:/home/ubuntu --restart=always ubuntu
 ```
+
+### 国内加速站点
+
+在任务栏点击 Docker for mac 应用图标 -> Perferences... -> Daemon -> Registry mirrors。在列表中填写加速器地址即可。修改完成之后，点击 Apply & Restart 按钮，Docker 就会重启并应用配置的镜像地址了。
+
+1. https://registry.docker-cn.com
+2. http://hub-mirror.c.163.com
+3. https://3laho3y3.mirror.aliyuncs.com
+4. http://f1361db2.m.daocloud.io
+5. https://mirror.ccs.tencentyun.com
