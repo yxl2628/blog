@@ -53,7 +53,7 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 
 ```bash
 FROM ubuntu:18.04
-RUN apt update;apt install git curl nano iputils-ping net-tools netcat nginx zsh -y;chsh -s /bin/zsh
+RUN apt update;apt install git curl nano iputils-ping net-tools netcat nginx nodejs zsh -y;chsh -s /bin/zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";cd ~;git clone https://github.com/zsh-users/zsh-syntax-highlighting.git;echo "source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ```
 
