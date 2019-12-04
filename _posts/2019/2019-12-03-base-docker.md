@@ -81,13 +81,48 @@ RUN npm config set registry https://registry.npm.taobao.org \
 docker build -t ubuntu .
 ```
 
-### 启动镜像
+### 删除镜像
+
+```bash
+docker images
+docker rmi ubuntu
+```
+
+
+### 启动容器
 
 ```bash
 # for all port
 docker run -idt --name ubuntu --net=host --restart=always ubuntu
 # for single port
 docker run -idt --name ubuntu -p 80:80 --restart=always ubuntu
+```
+
+### 进入容器
+
+```bash
+# bash 命令
+docker exec -ti ubuntu /bin/bash
+# zsh 命令
+docker exec -ti ubuntu zsh
+```
+
+### 停止容器
+
+```bash
+# look for docker
+docker ps -a
+# delete the current docker
+docker stop ubuntu
+```
+
+### 删除容器
+
+```bash
+# look for docker
+docker ps -a
+# delete the current docker
+docker rm ubuntu
 ```
 
 ### 国内加速站点
