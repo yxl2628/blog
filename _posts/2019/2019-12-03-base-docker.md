@@ -51,20 +51,28 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 
 ### DockerFile
 
-纯前端使用的环境：
+基础镜像：
+
+> 安装了常用的工具以及zsh命令行
 
 ```
 FROM ubuntu:18.04
-RUN apt update;apt install git curl nginx nodejs npm -y;
-RUN npm install npm -g;npm install –g n;n stable;
-```
-
-做了各种优化的基础环境：
-
-```
-FROM ubuntu:18.04
-RUN apt update;apt install git curl nano iputils-ping net-tools netcat zsh -y;chsh -s /bin/zsh
+RUN apt update;apt install git curl iputils-ping net-tools netcat zsh -y;chsh -s /bin/zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";cd ~;git clone https://github.com/zsh-users/zsh-syntax-highlighting.git;echo "source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+```
+
+前端镜像：
+
+> 在基础镜像的基础上安装了最新稳定版nodejs、npm、nginx；
+
+```
+FROM ubuntu:18.04
+RUN apt update;apt install git curl iputils-ping net-tools netcat zsh -y;chsh -s /bin/zsh
+RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";cd ~;git clone https://github.com/zsh-users/zsh-syntax-highlighting.git;echo "source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+RUN apt install nodejs npm nginx -y;
+RUN npm config set registry https://registry.npm.taobao.org \
+    && npm install n -g \
+    && n stable
 ```
 
 ### 构建镜像
