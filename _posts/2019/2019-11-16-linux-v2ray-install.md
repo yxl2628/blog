@@ -11,11 +11,22 @@ google cloud到期了，又撸了一个aws的免费服务器，不过用shadowso
 
 说明（敲黑板）：身为前端，所有的类库都在国外，无数次npm install失败的时候的那种懊恼，是我想要搭个梯子的主要原因，本教程也只为了技术知识等正规用途，请勿使用此技术作违法的事哦
 
-### 安装
+### 在线安装
 
 1. 下载安装脚本：`curl -O https://install.direct/go.sh`
 
 2. 安装v2ray：`sudo bash go.sh`
+
+### 离线安装
+
+> 由于该脚本默认执行时，需要访问国外的服务器下载v2ray-linux-64.zip文件，如果不走代理，这个过程会非常痛苦，而且有大概率会下载失败。我将go.sh以及目前（2019-12-05）为止最新的v2ray客户端，上传到了百度网盘，供大家下载：链接: https://pan.baidu.com/s/165ln8Wlmzza2dRca-46aog 提取码: am8h
+
+如果对自己的网速有自信，也可以从官方网站下载安装包：[release](https://github.com/v2ray/v2ray-core/releases)
+
+下载完成后，把go.sh与v2ray-linux-64.zip放在同一个文件夹，在终端下执行：`sudo bash go.sh --local ./v2ray-linux-64.zip`
+
+也可以安装成功
+
 
 3. 相关命令
 
@@ -130,36 +141,127 @@ location /ray { # 与 V2Ray 配置中的 path 保持一致
 
 ```json
 {
+    "dns": {
+        "servers": [
+            "localhost"
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": 1081, # 可以在这里更改端口
+            "protocol": "socks",
+            "tag": "socksinbound",
+            "settings": {
+                "auth": "noauth",
+                "udp": false,
+                "ip": "127.0.0.1"
+            }
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 8001, # 可以在这里更改端口
+            "protocol": "http",
+            "tag": "httpinbound",
+            "settings": {
+                "timeout": 0
+            }
+        }
+    ],
     "outbounds": [
         {
+            "tag": "direct",
+            "protocol": "freedom",
+            "settings": {}
+        },
+        {
+            "sendThrough": "0.0.0.0",
+            "mux": {
+                "enabled": false,
+                "concurrency": 8
+            },
             "protocol": "vmess",
             "settings": {
                 "vnext": [
                     {
-                        "address": "你的服务器ip或域名",
+                        "address": "？？？？", # 这里填写服务器的域名或者ip
                         "users": [
                             {
-                                "id": "和服务器上的uuid保持一致",
-                                "alterId": 64, #和服务器上的id保持一致
+                                "id": "？？？？？", # 这里填写服务器上生成的uuid
+                                "alterId": 64, # 这里填写服务器上的id
                                 "security": "auto",
                                 "level": 1
                             }
                         ],
-                        "port": 443 #注意，这里填的是443，不是v2ray配置的端口号12345，因为我们要做流量伪装，这里填的是实际网站的https端口
+                        "port": 443
                     }
                 ]
             },
+            "tag": "proxy server",
             "streamSettings": {
                 "wsSettings": {
-                    "path": "v2ray" #这里就是nginx配置的转发的path
+                    "path": "/v2ray", # 这里填写你服务器上nginx做的转发路径
+                    "headers": {}
+                },
+                "quicSettings": {
+                    "key": "",
+                    "header": {
+                        "type": "none"
+                    },
+                    "security": "none"
                 },
                 "tlsSettings": {
-                    "serverName": "这里填写你的网站域名"
+                    "allowInsecure": false,
+                    "alpn": [
+                        "http/1.1"
+                    ],
+                    "serverName": "？？？？", # 这里填写你服务器的ip或者域名
+                    "allowInsecureCiphers": false
+                },
+                "httpSettings": {
+                    "path": ""
+                },
+                "kcpSettings": {
+                    "header": {
+                        "type": "none"
+                    },
+                    "mtu": 1350,
+                    "congestion": false,
+                    "tti": 20,
+                    "uplinkCapacity": 5,
+                    "writeBufferSize": 1,
+                    "readBufferSize": 1,
+                    "downlinkCapacity": 20
+                },
+                "tcpSettings": {
+                    "header": {
+                        "type": "none"
+                    }
                 },
                 "security": "tls",
                 "network": "ws"
             }
         }
-    ]
+    ],
+    "routing": {
+        "name": "bypasscn_private",
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "ip": [
+                    "geoip:private",
+                    "geoip:cn"
+                ]
+            }
+        ]
+    },
+    "log": {
+        "error": "/var/log/v2ray/error.log", # 这里需要改称你自己想保存的日志路径
+        "loglevel": "none", # 我觉着打印日志太占用空间，所以把日志关闭了，你也可以改成 info/warn/error
+        "access": "/var/log/v2ray/access.log" # 这里需要改称你自己想保存的日志路径
+    }
 }
+
 ```
