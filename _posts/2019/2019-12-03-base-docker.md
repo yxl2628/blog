@@ -53,38 +53,116 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 
 基础镜像：
 
-> 安装了常用的工具
+> 安装 ubutu 18.04 LTS 版本，并将apt的源切换成了阿里源（如果你要将服务器部署到海外，可以将第二行注释掉）
 
 ```
 FROM ubuntu:18.04
-RUN apt update;apt install git curl
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
+touch /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+apt-get clean; \
+apt-get update
 ```
 
-oh my zsh镜像：
+nodejs镜像：
 
-> 安装了oh my zsh命令行
+> 在基础镜像的基础上安装nodejs
 
 ```
 FROM ubuntu:18.04
-RUN apt update;apt install git curl
-RUN apt install zsh -y;chsh -s /bin/zsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";cd ~;git clone https://github.com/zsh-users/zsh-syntax-highlighting.git;echo "source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
+touch /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+apt-get clean; \
+apt-get update
+RUN apt-get install curl wget -y \
+    && cd /opt \
+    && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
+    && curl "https://nodejs.org/dist/latest/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
+    && cd /opt && tar zxvf node-latest.tar.gz \
+    && mv "${lastVersion}" nodejs \
+    && ln -s /opt/nodejs/bin/node /usr/local/bin/node \
+    && ln -s /opt/nodejs/bin/npm /usr/local/bin/npm \
+    && npm install -g cnpm --registry=https://registry.npm.taobao.org \
+    && ln -s /opt/nodejs/bin/cnpm /usr/local/bin/cnpm \
+    && rm -rf node-latest.tar.gz
 ```
 
-前端镜像：
+ningx镜像：
 
-> 在基础镜像的基础上安装了最新稳定版nodejs、npm、nginx；
+> 在基础镜像的基础上安装了nginx；
 
 ```
 FROM ubuntu:18.04
-RUN apt update;apt install git curl
-RUN lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" && 
-    echo "the node lastet version is: ${lastVersion}" && 
-    curl "https://nodejs.org/dist/latest/node-${lastVersion}.tar.gz" > "node-latest.tar.gz" && 
-    tar zxvf node-latest.tar.gz && 
-    mv ${lastVersion} nodejs
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
+touch /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+apt-get clean; \
+apt-get update
+RUN apt-get install nginx -y
+```
+
+fe镜像：
+
+> 大部分时候，我要么是需要单独的nginx，要么是需要node、npm、nginx全部，所以在单独写一个镜像出来，方便拷贝
 
 ```
+FROM ubuntu:18.04
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
+touch /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list; \
+apt-get clean; \
+apt-get update
+RUN apt-get install curl wget -y \
+    && cd /opt \
+    && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
+    && curl "https://nodejs.org/dist/latest/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
+    && cd /opt && tar zxvf node-latest.tar.gz \
+    && mv "${lastVersion}" nodejs \
+    && ln -s /opt/nodejs/bin/node /usr/local/bin/node \
+    && ln -s /opt/nodejs/bin/npm /usr/local/bin/npm \
+    && npm install -g cnpm --registry=https://registry.npm.taobao.org \
+    && ln -s /opt/nodejs/bin/cnpm /usr/local/bin/cnpm \
+    && rm -rf node-latest.tar.gz
+RUN apt-get install nginx -y
+```
+
 
 ### 构建镜像
 
@@ -144,9 +222,9 @@ docker rmi basic
 
 ```bash
 # for all port
-docker run -idt --name test-demo --net=host --restart=always basic
+docker run -idt --name test-demo basic --net=host --restart=always
 # for single port
-docker run -idt --name test-demo -p 80:80 --restart=always basic
+docker run -idt --name test-demo basic -p 80:80 --restart=always basic
 ```
 
 ### 进入容器
