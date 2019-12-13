@@ -1,5 +1,5 @@
 ---
-title: nginx配置proxy_pass抓发的/路径问题
+title: nginx配置proxy_pass转发的/路径问题
 date: 2019-12-13 10:31:02
 categories: server
 tags: ngnix
