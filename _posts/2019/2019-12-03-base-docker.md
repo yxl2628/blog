@@ -226,14 +226,13 @@ docker run -idt --name test-demo basic --net=host --restart=always
 # for single port
 docker run -idt --name test-demo basic -p 80:80 --restart=always basic
 ```
+> -idt 实际上就是 -i -d -t,可以参照上面的说明，自行理解
 
 ### 进入容器
 
 ```bash
 # bash 命令
 docker exec -ti test-demo /bin/bash
-# zsh 命令
-docker exec -ti test-demo zsh
 ```
 
 ### 停止容器
@@ -251,7 +250,7 @@ docker stop test-demo
 # look for docker
 docker ps -a
 # delete the current docker
-docker rm ubuntu
+docker rm test-demo
 ```
 
 ### 国内加速站点
