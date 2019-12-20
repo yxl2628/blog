@@ -16,7 +16,7 @@ tags: docker
   - [blog](https://hexo.io/)（博客）
   - [theme](https://github.com/yxl2628/hexo-theme-Chic)（博客主题）
   - [source](https://github.com/yxl2628/blog)(博客内容)
-  - [nginx]()(用于做网站代理)
+  - nginx(用于做网站代理)
 
 ### 搭建基础镜像
 
