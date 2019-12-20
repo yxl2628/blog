@@ -224,3 +224,27 @@ RUN apt-get install nginx git -y \
 # start
 ENTRYPOINT ["/bin/sh", "/opt/blog/startup.sh"]
 ```
+
+### 构建镜像
+
+```bash
+docker build -t blog . 
+```
+
+### 运行容器
+
+```bash
+docker run -idt --name blog -p 80:80 -p 443:443 -v /opt/nginx:/opt/nginx  --restart=always blog
+```
+
+### 更新git
+
+```bash
+docker restart blog
+```
+
+### 进入容器
+
+```bash
+docker exec -ti blog /bin/bash
+```
