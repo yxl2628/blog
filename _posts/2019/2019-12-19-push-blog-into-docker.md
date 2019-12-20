@@ -241,8 +241,10 @@ docker build -t blog .
 ### 运行容器
 
 ```bash
-docker run -idt --name blog -p 80:80 -p 443:443 -v /opt/nginx:/opt/nginx  --restart=always blog
+docker run -idt --name blog -p 80:80 -p 443:443 -v /opt/private/blog/nginx:/opt/nginx  --restart=always blog
 ```
+
+> 上面挂在的文件路径`/opt/private/blog/nginx`，是我的nginx.conf配置和tls证书存放的位置，小伙伴们可以根据需要，自己修改位置
 
 ### 更新git
 
