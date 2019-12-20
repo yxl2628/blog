@@ -55,7 +55,7 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 
 > 安装 ubutu 18.04 LTS 版本，并将apt的源切换成了阿里源（如果你要将服务器部署到海外，可以将第二行注释掉）
 
-```
+```Dockerfile
 FROM ubuntu:18.04
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   touch /etc/apt/sources.list; \
@@ -77,7 +77,7 @@ nodejs镜像：
 
 > 在基础镜像的基础上安装nodejs
 
-```
+```Dockerfile
 FROM ubuntu:18.04
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   touch /etc/apt/sources.list; \
@@ -95,8 +95,8 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   apt-get update
 RUN apt-get install curl wget -y \
   && cd /opt \
-  && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
-  && curl "https://nodejs.org/dist/latest/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
+  && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
+  && curl "https://nodejs.org/dist/latest-v12.x/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
   && cd /opt && tar zxvf node-latest.tar.gz \
   && mv "${lastVersion}" nodejs \
   && ln -s /opt/nodejs/bin/node /usr/local/bin/node \
@@ -110,7 +110,7 @@ ningx镜像：
 
 > 在基础镜像的基础上安装了nginx；
 
-```
+```Dockerfile
 FROM ubuntu:18.04
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   touch /etc/apt/sources.list; \
@@ -133,7 +133,7 @@ fe镜像：
 
 > 大部分时候，我要么是需要单独的nginx，要么是需要node、npm、nginx全部，所以在单独写一个镜像出来，方便拷贝
 
-```
+```Dockerfile
 FROM ubuntu:18.04
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   touch /etc/apt/sources.list; \
@@ -151,8 +151,8 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bakcup; \
   apt-get update
 RUN apt-get install curl wget -y \
   && cd /opt \
-  && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
-  && curl "https://nodejs.org/dist/latest/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
+  && lastVersion="node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-(.*)\-linux-x64.tar.gz</a>.*|\1|p')}-linux-x64" \
+  && curl "https://nodejs.org/dist/latest-v12.x/${lastVersion}.tar.gz" > "node-latest.tar.gz" \
   && cd /opt && tar zxvf node-latest.tar.gz \
   && mv "${lastVersion}" nodejs \
   && ln -s /opt/nodejs/bin/node /usr/local/bin/node \
