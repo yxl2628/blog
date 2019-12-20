@@ -158,18 +158,25 @@ http {
 # add the host ip into the container hosts
 /sbin/ip route|awk '/default/ { print  $3,"\tdockerhost" }' >> /etc/hosts
 # update the code lasetst
+echo "==================update hexo======================"
 cd /opt/blog
 git fetch --all
 git reset --hard origin/master
+echo "==================update githooks server======================"
 cd /opt/auto-public-hexo
 git fetch --all
 git reset --hard origin/master
 # generate html
-cd /opt/blog
+echo "==================update blog======================"
+cd /opt/blog/source
+git fetch --all
+git reset --hard origin/master
 hexo g
 # start nginx
+echo "==================start nginx======================"
 /usr/sbin/nginx -c /opt/nginx/nginx.conf
 # start auto-publish-server
+echo "==================start githooks server======================"
 cd /opt/auto-public-hexo
 node src/server.js
 ```
@@ -247,4 +254,26 @@ docker restart blog
 
 ```bash
 docker exec -ti blog /bin/bash
+```
+
+### 手动更新脚本
+
+如果觉着重启docker，更新步骤太多，也可以用这个重启脚本
+
+```shell
+echo "===================ps all node=================="
+ps -ef|grep node
+echo "==================kill all node================="
+ps -ef | grep node | awk '{print $2}' | xargs kill -9
+echo "==================show the kill result================="
+ps -ef|grep node
+echo "==================generate html================="
+cd /opt/blog/source
+git fetch --all
+git reset --hard origin/master
+cd /opt/blog
+hexo g
+echo "================restart the node================"
+cd /opt/auto-public-hexo
+node src/server.js
 ```
