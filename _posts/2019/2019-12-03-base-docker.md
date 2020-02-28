@@ -59,6 +59,7 @@ Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可�
 FROM ubuntu:18.04
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
   sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
+  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
   apt-get clean; \
   apt-get update
 ```
@@ -71,6 +72,7 @@ nodejs镜像：
 FROM ubuntu:18.04
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
   sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
+  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
   apt-get clean; \
   apt-get update
 RUN apt-get install curl wget -y \
@@ -94,6 +96,7 @@ ningx镜像：
 FROM ubuntu:18.04
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
   sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
+  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
   apt-get clean; \
   apt-get update
 RUN apt-get install nginx -y
@@ -107,6 +110,7 @@ fe镜像：
 FROM ubuntu:18.04
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
   sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
+  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
   apt-get clean; \
   apt-get update
 RUN apt-get install curl wget -y \
