@@ -154,7 +154,7 @@
 	to {
 		transform-origin: top;
 		transform: rotateX(-180deg);
-		margin-bottom: -2rpx;
+		margin-bottom: -2rem;
 	}
 }
 
