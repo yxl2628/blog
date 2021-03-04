@@ -58,3 +58,9 @@ function GetQueryString(param) {
   parseInt(Math.random()*(max-min+1)+min,10);
   Math.floor(Math.random()*(max-min+1)+min);
   ```
+
+### 用Promise做延时
+
+  ```
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  ```
