@@ -15,8 +15,8 @@ tags: fe
 
 | 框架 | 技术栈 | 案例 | 微信小程序 | 支付宝小程序 | 百度小程序 | 头条小程序 | H5 | App |
 | ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| [Taro](https://taro.jd.com/) | React/Vue/Nerv | 丰富 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [uni-app](https://uniapp.dcloud.io/) | Vue | 丰富 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [chameleon](https://cml.js.org/) | 类Vue | 较少 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [wepy](https://wepyjs.gitee.io/wepy-docs/) | 类Vue | 丰富 | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [mpvue](http://mpvue.com/) | 类Vue | 丰富 | ✔ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [Taro](https://taro.jd.com/) | React/Vue/Nerv | 丰富 | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ |
+| [uni-app](https://uniapp.dcloud.io/) | Vue | 丰富 | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ |
+| [chameleon](https://cml.js.org/) | 类Vue | 较少 | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ | ⭕ |
+| [wepy](https://wepyjs.gitee.io/wepy-docs/) | 类Vue | 丰富 | ⭕ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [mpvue](http://mpvue.com/) | 类Vue | 丰富 | ⭕ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
