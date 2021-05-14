@@ -56,7 +56,7 @@ tags: fe
 #### 对比一：跨端支持度
 
 |框架 |微信小程序 |支付宝小程序 |百度小程序 |头条小程序 |H5 |App |
-|:- |:- |:- |:- |:- |:- |:- |
+|:-: |:-: |:-: |:-: |:-: |:-: |:-: |
 |Taro |⭕ |⭕ |⭕ |⭕ |⭕ |⭕ |
 |uni-app |⭕ |⭕ |⭕ |⭕ |⭕ |⭕ |
 |chameleon |⭕ |⭕ |⭕ |⭕ |⭕ |⭕ |
@@ -68,8 +68,8 @@ tags: fe
 
 #### 对比二：开发效率
 
-|功能	|wepy	|mpvue	|taro	|uni-app |chameleon |
-|:-	|:-	|:-	|:-	|:-	|:- |
+| 功能 | wepy | mpvue | taro | uni-app | chameleon |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 |技术栈  |类Vue  |类Vue  |React/Vue  |Vue  |类Vue  |
 |学习成本  |⭕ |❌ |❌ |❌ |⭕ |
 |IDE/插件  |❌	|❌ |`Visual Studio Code`	|⭕ |`Visual Studio Code`、`WebStorm`、`Sublime`、`Atom`	|
@@ -84,8 +84,8 @@ tags: fe
 
 2. 组件库/工具库/Demo
 
-|对比项	|wepy	|mpvue	|taro	|uni-app |chameleon |
-|:-	|:-	|:-	|:-	|:-	|:-	|
+| 功能 | wepy | mpvue | taro | uni-app | chameleon |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 |自研组件库 |❌ |❌ |⭕ |⭕ |⭕ |
 |第三方组件 |丰富 |丰富 |较丰富 |丰富 |较少 |
 |第三方工具 |丰富 |较丰富 |较丰富 |丰富|较少 |
@@ -98,8 +98,8 @@ tags: fe
 
 > dcloud团队写了一份多个框架的[测试代码](https://github.com/dcloudio/test-framework)，分别使用微信原生版(kbone)、wepy版、mpvue版、taro版、uni-app版、chalemeon版，各自开发一个仿微博小程序首页的复杂长列表，支持下拉刷新、上拉翻页、点赞功能。
 
-|列表条数	| 微信原生	|wepy	|mpvue	|taro	|uni-app  |chameleon	|
-|:-	|:-	|:-	|:-	|:-	|:-	|:- |
+| 功能 | 微信原生 | wepy | mpvue | taro | uni-app | chameleon |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |200  |770	|625	|969	|752	|641	|1261	|
 |400  |876  |781  |4493	|974 |741  |1970  |
 |600  |1111 |-  |-  |1250	|910  |2917	  |
@@ -122,8 +122,8 @@ tags: fe
 
 #### 对比四：社区活跃度
 
-|功能	|wepy	|mpvue	|taro	|uni-app |chameleon |
-|:-	|:-	|:-	|:-	|:-	|:- |
+| 功能 | wepy | mpvue | taro | uni-app | chameleon |
+| :-: | :-: | :-: | :-: | :-: | :-: |
 |地址 |[地址](https://github.com/Tencent/wepy)	|[地址](https://github.com/Meituan-Dianping/mpvue)	|[地址](https://github.com/NervJS/taro)	|[地址](https://github.com/dcloudio/uni-app)	|[地址](https://github.com/didi/chameleon) |
 |GitHub Star  |21.3k	|20.3K	|28.8K	|31.2K	|8.4K |
 |GitHub Issue  |344/1777  |419/1264	|674/6546	|800/1589	|147/274 |
