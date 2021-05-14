@@ -228,7 +228,7 @@ export default () => {
 }
 ```
 
-#### 非Tab页面，H5上tabbar不消失
+#### H5上tabbar消失
 
 这个问题，提交了issue，但是官方修复的速度很慢，等了很久，依然没有修复，可能`Taro`团队对H5不积极，这里使用了hack的方式，来解决，代码如下：
 
@@ -264,71 +264,54 @@ export default App
 
 ```javascript
 // list.jsx
-import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
-import { View, ScrollView } from '@tarojs/components'
-import NavBar from '../../components/NavBar'
-import { getCategoryChildren, getCategories, getCategory, getHybridCategoryChildren } from '../../service'
-import { getNoticeInfo } from '../../service/hcService'
-import ListTemplate from '../../components/ListTemplate'
-import MenuTabs from '../../components/MenuTabs'
-import * as utils from '../../utils'
-import './index.less'
+import React, { useEffect, useState } from 'react';
+import Taro from '@tarojs/taro';
 
-export default class Service extends Component {
+export default () => {
 
-  state = { current: 0, name: '', id: null, pageNumber: 1, pageSize: 10, total: 0, template: null, type: null, categories: [], informations: [] }
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [endX, setEndX] = useState(0);
+  const [endY, setEndY] = useState(0);
 
-  async componentDidMount() {
+  useEffect(() => {
     // code here
+  }, []);
+
+  const touchStart: any = (e: { touches: any[]; }) => {
+    const touch = e.touches[0]
+    setStartX(touch.pageX);
+    setStartY(touch.pageY);
   }
 
-  // 下拉刷新
-  onScrollToUpper = () => {
-    Taro.showLoading({ title: '加载中' })
-    await this.getCategoryChildren(type, template, id, 1, pageSize);
-    Taro.hideLoading()
+  const touchMove: any = (e: { touches: any[]; }) => {
+    const touch = e.touches[0]
+    const deltaX = touch.pageX - startX;
+    const deltaY = touch.pageY - startY;
+    setEndX(deltaX);
+    setEndY(deltaY);
   }
 
-  // 滚动加载
-  onScrollToLower = async () => {
-    const { id, type, template, total, pageNumber, pageSize, informations } = this.state
-    if (informations.length < total) {
-      Taro.showLoading({ title: '加载中' })
-      await this.getCategoryChildren(type, template, id, pageNumber + 1, pageSize);
-      Taro.hideLoading()
+  const touchEnd: any = () => {
+    if (endY < -100) { // 向下滑动
+      setEndY(0);
+      setEndX(0);
+      // code here
+    }
+    if (endY > 100) {
+      setEndY(0);
+      setEndX(0);
+      // code here
+    }
+    if (endX < -100) {
+      // 向左滑动
+    }
+    if (endX > 100) {
+      // 向右滑动
     }
   }
 
-  // 查询列表
-  getCategoryChildren = async (type, template, id, pageNumber, pageSize) => {
-    // code here
-  }
-
-  render() {
-    const { current, id, template, categories, informations, total, name } = this.state
-    if (id) {
-      return (
-        <View className="list-page-body">
-          <NavBar title={name} />
-          <ScrollView
-            className={categories.length > 1 ? 'list-has-tab' : 'list-no-tab'}
-            scrollY
-            scrollWithAnimation
-            scrollTop={0}
-            upperThreshold={50}
-            lowerThreshold={50}
-            onScrollToUpper={this.onScrollToUpper} // 上滑到顶部
-            onScrollToLower={this.onScrollToLower} // 下滑至底部
-          >
-            <ListTemplate informations={informations} total={total} />
-          </ScrollView>
-          
-        </View>
-      )
-    }
-    return null
-  }
+  return <View onTouchStart={touchStart} onTouchMove={touchMove} onTouchEnd={touchEnd} />;
 }
 
 ```
