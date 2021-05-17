@@ -78,11 +78,11 @@ tags: fe
 |自动补全 |API |❌ |API + JSX |IDE支持 |无 |
 |样式 |sass、less、stylus |sass、less、stylus |sass、less、stylus、css modules |sass、less、stylus |sass、less、stylus |
 
-1. 开发工具的效率
+- 1.开发工具的效率
 
 `uni-app`具有自己研发的HBuilderX开发工具，因此开发效率上，`uni-app`一骑绝尘，`taro`提供了`Visual Studio Code`插件，`chameleon`提供了`Visual Studio Code`、`WebStorm`、`Sublime`、`Atom` 插件
 
-2. 组件库/工具库/Demo
+- 2.组件库/工具库/Demo
 
 | 功能 | wepy | mpvue | taro | uni-app | chameleon |
 | :-: | :-: | :-: | :-: | :-: | :-: |
