@@ -182,6 +182,8 @@ docker rmi basic
 
 - --volume , -v: 绑定一个卷
 
+- --restart=always：随docker启动自启动
+
 实例：
 
 ```bash
